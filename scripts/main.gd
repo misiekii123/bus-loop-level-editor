@@ -7,6 +7,7 @@ var edge_scene = load("res://scenes/edge.tscn")
 @onready var edges_parent: Node = $Edges
 
 @onready var generate_json_button = $CanvasLayer/EditorUI/VBoxContainer/GenerateJSONButton
+@onready var load_json_button = $CanvasLayer/EditorUI/VBoxContainer/LoadJSONButton
 
 var intersection_list: Array[Intersection]
 var edges_list: Array[Edge]
@@ -15,6 +16,7 @@ var selected_intersection: Intersection = null
 func _ready() -> void:
 	MainData.CURRENT_MODE = MainData.modes.INTERSECTIONS
 	generate_json_button.pressed.connect(on_generate_json_button_pressed)
+	load_json_button.pressed.connect(on_load_json_button_pressed)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -84,7 +86,6 @@ func export_to_json_files() -> void:
 	generate_nodes_json()
 	generate_roads_json()
 
-
 func generate_nodes_json() -> void:
 	var nodes_data := {}
 	for i in range(intersection_list.size()):
@@ -123,3 +124,57 @@ func generate_roads_json() -> void:
 
 func on_generate_json_button_pressed() -> void:
 	export_to_json_files()
+
+func on_load_json_button_pressed() -> void:
+	load_from_json_files()
+
+func load_from_json_files() -> void:
+	clear_scene()
+
+	var id_to_intersection := {}
+
+	var nodes_file = FileAccess.open("user://nodes.json", FileAccess.READ)
+	if nodes_file:
+		var nodes_data = JSON.parse_string(nodes_file.get_as_text())
+		nodes_file.close()
+
+		for id in nodes_data.keys():
+			var data = nodes_data[id]
+			var intersection_instance: Intersection = intersection_scene.instantiate()
+			intersection_instance.position = Vector2(data["x"], data["y"])
+			intersections_parent.add_child(intersection_instance)
+			intersection_list.append(intersection_instance)
+			id_to_intersection[int(id)] = intersection_instance
+
+	var roads_file = FileAccess.open("user://roads.json", FileAccess.READ)
+	if roads_file:
+		var roads_data = JSON.parse_string(roads_file.get_as_text())
+		roads_file.close()
+
+		for id in roads_data.keys():
+			var data = roads_data[id]
+			var a_id = data["node_a"]
+			var b_id = data["node_b"]
+			
+			print("Road: %01d %01d" % [a_id, b_id])
+
+			if id_to_intersection.has(a_id) and id_to_intersection.has(b_id):
+				var edge_instance: Edge = edge_scene.instantiate()
+				edge_instance.intersection_a = id_to_intersection[a_id]
+				edge_instance.intersection_b = id_to_intersection[b_id]
+				edges_parent.add_child(edge_instance)
+				edges_list.append(edge_instance)
+
+	print("Data loaded from JSON.")
+
+
+func clear_scene() -> void:
+	for intersection in intersection_list:
+		intersection.queue_free()
+	intersection_list.clear()
+
+	for edge in edges_list:
+		edge.queue_free()
+	edges_list.clear()
+
+	selected_intersection = null

@@ -19,7 +19,7 @@ anchor_right = 1.0
 offset_left = -262.0
 offset_top = 10.0
 offset_right = -12.0
-offset_bottom = 137.0
+offset_bottom = 164.225
 grow_horizontal = 0
 
 [node name="IntersectionsButton" type="Button" parent="VBoxContainer"]
@@ -38,6 +38,11 @@ text = "EDGES"
 layout_mode = 2
 size_flags_vertical = 3
 text = "GENERATE JSON"
+
+[node name="LoadJSONButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "LOAD JSON"
 
 [connection signal="pressed" from="VBoxContainer/IntersectionsButton" to="." method="intersections_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/EdgesButton" to="." method="edges_button_pressed"]
