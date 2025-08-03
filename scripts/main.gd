@@ -6,12 +6,15 @@ var edge_scene = load("res://scenes/edge.tscn")
 @onready var intersections_parent: Node = $Intersections
 @onready var edges_parent: Node = $Edges
 
+@onready var generate_json_button = $EditorUI/VBoxContainer/GenerateJSONButton
+
 var intersection_list: Array[Intersection]
 var edges_list: Array[Edge]
 var selected_intersection: Intersection = null
 
 func _ready() -> void:
 	MainData.CURRENT_MODE = MainData.modes.INTERSECTIONS
+	generate_json_button.pressed.connect(_on_generate_json_button_pressed)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -76,3 +79,51 @@ func _remove_edges_connected_to(intersection: Intersection) -> void:
 	for edge in to_remove:
 		edges_list.erase(edge)
 		edge.queue_free()
+
+func export_to_json_files() -> void:
+	var dir = DirAccess.open("res://")
+	if not dir.dir_exists("res://export"):
+		dir.make_dir("res://export")
+
+	_generate_nodes_json()
+	_generate_roads_json()
+
+
+func _generate_nodes_json() -> void:
+	var nodes_data := {}
+	for i in range(intersection_list.size()):
+		var intersection = intersection_list[i]
+		nodes_data[str(i + 1)] = {
+			"x": intersection.position.x,
+			"y": intersection.position.y
+		}
+	var file = FileAccess.open("res://export/nodes.json", FileAccess.WRITE)
+	file.store_string(JSON.stringify(nodes_data, "\t"))
+	file.close()
+	print("nodes.json saved to res://export/")
+
+func _generate_roads_json() -> void:
+	var roads_data := {}
+	var id_map := {}
+	for i in range(intersection_list.size()):
+		id_map[intersection_list[i]] = i + 1
+
+	for i in range(edges_list.size()):
+		var edge = edges_list[i]
+		var node_a_id = id_map.get(edge.intersection_a, null)
+		var node_b_id = id_map.get(edge.intersection_b, null)
+		if node_a_id == null or node_b_id == null:
+			continue
+
+		roads_data[str(i + 1)] = {
+			"node_a": node_a_id,
+			"node_b": node_b_id,
+			"buildings": []
+		}
+	var file = FileAccess.open("res://export/roads.json", FileAccess.WRITE)
+	file.store_string(JSON.stringify(roads_data, "\t"))
+	file.close()
+	print("roads.json saved to res://export/")
+
+func _on_generate_json_button_pressed() -> void:
+	export_to_json_files()
