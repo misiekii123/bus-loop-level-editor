@@ -37,7 +37,6 @@ text = "EDGES"
 [node name="GenerateJSONButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-toggle_mode = true
 text = "GENERATE JSON"
 
 [connection signal="pressed" from="VBoxContainer/IntersectionsButton" to="." method="intersections_button_pressed"]
