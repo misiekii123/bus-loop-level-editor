@@ -14,7 +14,7 @@ var selected_intersection: Intersection = null
 
 func _ready() -> void:
 	MainData.CURRENT_MODE = MainData.modes.INTERSECTIONS
-	generate_json_button.pressed.connect(_on_generate_json_button_pressed)
+	generate_json_button.pressed.connect(on_generate_json_button_pressed)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -24,7 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			for intersection in intersection_list:
 				if intersection.position.distance_to(click_pos) <= 10.0:
 					intersection_list.erase(intersection)
-					_remove_edges_connected_to(intersection)
+					remove_edges_connected_to(intersection)
 					intersection.queue_free()
 					if intersection == selected_intersection:
 						selected_intersection = null
@@ -38,10 +38,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif MainData.CURRENT_MODE == MainData.modes.EDGES:
 			for intersection in intersection_list:
 				if intersection.position.distance_to(click_pos) <= 10.0:
-					_handle_edge_click(intersection)
+					handle_edge_click(intersection)
 					return
 
-func _handle_edge_click(intersection: Intersection) -> void:
+func handle_edge_click(intersection: Intersection) -> void:
 	if selected_intersection == null:
 		selected_intersection = intersection
 		selected_intersection.modulate = Color.YELLOW
@@ -51,7 +51,7 @@ func _handle_edge_click(intersection: Intersection) -> void:
 			selected_intersection = null
 			return
 
-		var existing_edge := _find_edge_between(selected_intersection, intersection)
+		var existing_edge := find_edge_between(selected_intersection, intersection)
 		if existing_edge:
 			edges_list.erase(existing_edge)
 			existing_edge.queue_free()
@@ -65,13 +65,13 @@ func _handle_edge_click(intersection: Intersection) -> void:
 		selected_intersection.modulate = Color.WHITE
 		selected_intersection = null
 
-func _find_edge_between(a: Intersection, b: Intersection) -> Edge:
+func find_edge_between(a: Intersection, b: Intersection) -> Edge:
 	for edge in edges_list:
 		if (edge.intersection_a == a and edge.intersection_b == b) or (edge.intersection_a == b and edge.intersection_b == a):
 			return edge
 	return null
 
-func _remove_edges_connected_to(intersection: Intersection) -> void:
+func remove_edges_connected_to(intersection: Intersection) -> void:
 	var to_remove := []
 	for edge in edges_list:
 		if edge.intersection_a == intersection or edge.intersection_b == intersection:
@@ -85,11 +85,11 @@ func export_to_json_files() -> void:
 	if not dir.dir_exists("res://export"):
 		dir.make_dir("res://export")
 
-	_generate_nodes_json()
-	_generate_roads_json()
+	generate_nodes_json()
+	generate_roads_json()
 
 
-func _generate_nodes_json() -> void:
+func generate_nodes_json() -> void:
 	var nodes_data := {}
 	for i in range(intersection_list.size()):
 		var intersection = intersection_list[i]
@@ -102,7 +102,7 @@ func _generate_nodes_json() -> void:
 	file.close()
 	print("nodes.json saved to res://export/")
 
-func _generate_roads_json() -> void:
+func generate_roads_json() -> void:
 	var roads_data := {}
 	var id_map := {}
 	for i in range(intersection_list.size()):
@@ -125,5 +125,5 @@ func _generate_roads_json() -> void:
 	file.close()
 	print("roads.json saved to res://export/")
 
-func _on_generate_json_button_pressed() -> void:
+func on_generate_json_button_pressed() -> void:
 	export_to_json_files()
