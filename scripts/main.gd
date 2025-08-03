@@ -1,12 +1,5 @@
 extends Node2D
 
-enum modes {
-	INTERSECTIONS,
-	EDGES
-}
-
-var current_mode: modes
-
 var intersection_scene = load("res://scenes/intersection.tscn")
 
 @onready var intersections_parent: Node = $Intersections
@@ -14,11 +7,11 @@ var intersection_scene = load("res://scenes/intersection.tscn")
 var intersection_list: Array[Intersection]
 
 func _ready() -> void:
-	current_mode = modes.INTERSECTIONS
+	MainData.CURRENT_MODE = MainData.modes.INTERSECTIONS
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if current_mode == modes.INTERSECTIONS:
+		if MainData.CURRENT_MODE == MainData.modes.INTERSECTIONS:
 			var click_pos = get_global_mouse_position()
 
 			for intersection in intersection_list:
