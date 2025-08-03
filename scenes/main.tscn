@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bldo8fpx5pjjn"]
+[gd_scene load_steps=3 format=3 uid="uid://bldo8fpx5pjjn"]
 
 [ext_resource type="Script" uid="uid://7ag5g8jaeoll" path="res://scripts/main.gd" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://bncqenfp5l5ig" path="res://scenes/editor_ui.tscn" id="2_0wfyh"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_o5qli")
@@ -8,3 +9,12 @@ script = ExtResource("1_o5qli")
 [node name="Intersections" type="Node" parent="."]
 
 [node name="Edges" type="Node" parent="."]
+
+[node name="EditorUI" parent="." instance=ExtResource("2_0wfyh")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = 1280.0
+offset_right = 1280.0
+grow_horizontal = 0
+grow_vertical = 1

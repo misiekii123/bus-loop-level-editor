@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 
 MainData="*res://scripts/main_data.gd"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+
 [rendering]
 
 anti_aliasing/quality/msaa_2d=2
