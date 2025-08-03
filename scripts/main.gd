@@ -6,7 +6,7 @@ var edge_scene = load("res://scenes/edge.tscn")
 @onready var intersections_parent: Node = $Intersections
 @onready var edges_parent: Node = $Edges
 
-@onready var generate_json_button = $EditorUI/VBoxContainer/GenerateJSONButton
+@onready var generate_json_button = $CanvasLayer/EditorUI/VBoxContainer/GenerateJSONButton
 
 var intersection_list: Array[Intersection]
 var edges_list: Array[Edge]

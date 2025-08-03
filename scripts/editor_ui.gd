@@ -2,7 +2,7 @@ extends Control
 
 @onready var intersections_button = $VBoxContainer/IntersectionsButton
 @onready var edges_button = $VBoxContainer/EdgesButton
-@onready var generate_json_button = $VBoxContainer/GenerateJSONButtonButton
+@onready var generate_json_button = $VBoxContainer/GenerateJSONButton
 
 func _ready() -> void:
 	intersections_button.button_pressed = true
