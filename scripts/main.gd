@@ -2,6 +2,8 @@ extends Node2D
 
 var intersection_scene = load("res://scenes/intersection.tscn")
 
+@onready var intersections_parent: Node = $Intersections
+
 var intersection_list: Array[Intersection]
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -9,4 +11,4 @@ func _unhandled_input(event: InputEvent) -> void:
 		var intersection_instance = intersection_scene.instantiate()
 		intersection_instance.position = get_global_mouse_position()
 		intersection_list.append(intersection_instance)
-		add_child(intersection_instance)
+		intersections_parent.add_child(intersection_instance)
