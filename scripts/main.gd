@@ -81,10 +81,6 @@ func remove_edges_connected_to(intersection: Intersection) -> void:
 		edge.queue_free()
 
 func export_to_json_files() -> void:
-	var dir = DirAccess.open("res://")
-	if not dir.dir_exists("res://export"):
-		dir.make_dir("res://export")
-
 	generate_nodes_json()
 	generate_roads_json()
 
@@ -97,10 +93,10 @@ func generate_nodes_json() -> void:
 			"x": intersection.position.x,
 			"y": intersection.position.y
 		}
-	var file = FileAccess.open("res://export/nodes.json", FileAccess.WRITE)
+	var file = FileAccess.open("user://nodes.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(nodes_data, "\t"))
 	file.close()
-	print("nodes.json saved to res://export/")
+	print("nodes.json saved to user://")
 
 func generate_roads_json() -> void:
 	var roads_data := {}
@@ -120,10 +116,10 @@ func generate_roads_json() -> void:
 			"node_b": node_b_id,
 			"buildings": []
 		}
-	var file = FileAccess.open("res://export/roads.json", FileAccess.WRITE)
+	var file = FileAccess.open("user://roads.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(roads_data, "\t"))
 	file.close()
-	print("roads.json saved to res://export/")
+	print("roads.json saved to user://")
 
 func on_generate_json_button_pressed() -> void:
 	export_to_json_files()
