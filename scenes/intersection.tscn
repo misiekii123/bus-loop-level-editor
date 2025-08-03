@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://cnhb1wjkqgvei"]
+[gd_scene load_steps=2 format=3 uid="uid://cnhb1wjkqgvei"]
+
+[ext_resource type="Script" uid="uid://ci0lxyikgh1kc" path="res://scripts/intersection.gd" id="1_nor1w"]
 
 [node name="Intersection" type="Node2D"]
+script = ExtResource("1_nor1w")

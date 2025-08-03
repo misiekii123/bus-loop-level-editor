@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://ci6jjtd67lssy"]
+[gd_scene load_steps=2 format=3 uid="uid://ci6jjtd67lssy"]
+
+[ext_resource type="Script" uid="uid://bq4tol2y5accm" path="res://scripts/edge.gd" id="1_73j6r"]
 
 [node name="Edge" type="Line2D"]
+script = ExtResource("1_73j6r")
