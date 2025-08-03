@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Bus-loop-level-editor"
+config/name="Bus Loop: Level Editor"
 run/main_scene="uid://bldo8fpx5pjjn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/show_image=false
@@ -22,8 +22,8 @@ MainData="*res://scripts/main_data.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1600
+window/size/viewport_height=900
 
 [rendering]
 
