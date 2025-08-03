@@ -1,3 +1,7 @@
 [gd_scene format=3 uid="uid://bldo8fpx5pjjn"]
 
 [node name="Main" type="Node2D"]
+
+[node name="Intersections" type="Node" parent="."]
+
+[node name="Edges" type="Node" parent="."]
