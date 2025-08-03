@@ -4,7 +4,7 @@ var intersection_scene = load("res://scenes/intersection.tscn")
 var edge_scene = load("res://scenes/edge.tscn")
 
 @onready var intersections_parent: Node = $Intersections
-@onready var edges_parent: Node = $Edges  # Dodaj w scenie node o nazwie Edges
+@onready var edges_parent: Node = $Edges
 
 var intersection_list: Array[Intersection]
 var edges_list: Array[Edge]
