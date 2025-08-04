@@ -1,5 +1,5 @@
 # Bus Loop: Level Editor
-Simple level editor for <a href="https://github.com/PiotrGrey/GMTK-game-jam-2025">Bus Loop</a> game.
+Simple level editor for [BusLoops](https://piotr202.itch.io/busloops) game.
 
 ## How to use?
 Select mode `Intersection`, place some nodes and then select `Edge` to connect intersections as you want.
