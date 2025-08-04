@@ -14,11 +14,7 @@ script = ExtResource("1_o5qli")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="EditorUI" parent="CanvasLayer" instance=ExtResource("2_0wfyh")]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 1
+mouse_filter = 2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(620, 360)
