@@ -8,6 +8,7 @@ var edge_scene = load("res://scenes/edge.tscn")
 
 @onready var generate_json_button = $CanvasLayer/EditorUI/VBoxContainer/GenerateJSONButton
 @onready var load_json_button = $CanvasLayer/EditorUI/VBoxContainer/LoadJSONButton
+@onready var clear_scene_button = $CanvasLayer/EditorUI/VBoxContainer/ClearSceneButton
 
 var intersection_list: Array[Intersection]
 var edges_list: Array[Edge]
@@ -17,6 +18,7 @@ func _ready() -> void:
 	MainData.CURRENT_MODE = MainData.modes.INTERSECTIONS
 	generate_json_button.pressed.connect(on_generate_json_button_pressed)
 	load_json_button.pressed.connect(on_load_json_button_pressed)
+	clear_scene_button.pressed.connect(clear_scene)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
