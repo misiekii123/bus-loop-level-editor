@@ -131,8 +131,6 @@ func on_load_json_button_pressed() -> void:
 func load_from_json_files() -> void:
 	clear_scene()
 
-	var id_to_intersection := {}
-
 	var nodes_file = FileAccess.open("user://nodes.json", FileAccess.READ)
 	if nodes_file:
 		var nodes_data = JSON.parse_string(nodes_file.get_as_text())
@@ -144,7 +142,7 @@ func load_from_json_files() -> void:
 			intersection_instance.position = Vector2(data["x"], data["y"])
 			intersections_parent.add_child(intersection_instance)
 			intersection_list.append(intersection_instance)
-			id_to_intersection[int(id)] = intersection_instance
+			intersection_list.back().id = id
 
 	var roads_file = FileAccess.open("user://roads.json", FileAccess.READ)
 	if roads_file:
@@ -156,17 +154,22 @@ func load_from_json_files() -> void:
 			var a_id = data["node_a"]
 			var b_id = data["node_b"]
 			
-			print("Road: %01d %01d" % [a_id, b_id])
-
-			if id_to_intersection.has(a_id) and id_to_intersection.has(b_id):
-				var edge_instance: Edge = edge_scene.instantiate()
-				edge_instance.intersection_a = id_to_intersection[a_id]
-				edge_instance.intersection_b = id_to_intersection[b_id]
-				edges_parent.add_child(edge_instance)
-				edges_list.append(edge_instance)
+			var edge_instance: Edge = edge_scene.instantiate()
+			edge_instance.intersection_a = look_for_intersection(a_id, b_id)[0]
+			edge_instance.intersection_b = look_for_intersection(a_id, b_id)[1]
+			edges_parent.add_child(edge_instance)
+			edges_list.append(edge_instance)
 
 	print("Data loaded from JSON.")
 
+func look_for_intersection(a_id: int, b_id: int) -> Array[Intersection]:
+	var result: Array[Intersection]
+	for intersection in intersection_list:
+		if intersection.id == a_id:
+			result.append(intersection)
+		if intersection.id == b_id:
+			result.append(intersection)
+	return result
 
 func clear_scene() -> void:
 	for intersection in intersection_list:
