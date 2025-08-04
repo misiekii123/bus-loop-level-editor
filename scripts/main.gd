@@ -166,11 +166,13 @@ func load_from_json_files() -> void:
 
 func look_for_intersection(a_id: int, b_id: int) -> Array[Intersection]:
 	var result: Array[Intersection]
+	result.resize(2)
+	result.fill(null)
 	for intersection in intersection_list:
 		if intersection.id == a_id:
-			result.append(intersection)
+			result[0] = intersection
 		if intersection.id == b_id:
-			result.append(intersection)
+			result[1] = intersection
 	return result
 
 func clear_scene() -> void:
